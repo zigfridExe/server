@@ -16,6 +16,14 @@ export class SubmitFeedbackUseCase {
     async execute(request: SubmitFeedbackUseCaseRequest) {
         const { type, coment, screenshot } = request;
 
+        if (!type) {
+            throw new Error('Type is reque')
+        }
+
+        if (screenshot && !screenshot.startsWith('data:image/png;base64')) {
+            throw new Error('Invalid screenshot format.')
+        }
+
         await this.feedbacksRepository.create({
             type,
             coment,
